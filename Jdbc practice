@@ -41,3 +41,126 @@ public class Demo {
 	}
 
 }
+
+
+??????////
+update in jdbc practice
+
+
+
+
+
+
+package jdbc.project;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+public class Demo1 {
+	public static void main(String[] args) {
+	//	String url="api:vendor://I-P addr:port/db-name";
+		String url="jdbc:mysql://localhost:3306/employee";
+		String user="root";
+		String pwd="Vivek@mysql";
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			System.out.println("driver sucessfully loaded");
+			Connection con = DriverManager.getConnection(url, user, pwd);
+				System.out.println("connection establish");
+				
+				Statement stmt=con.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,0);
+				String query="select * from emp";
+				ResultSet res = stmt.executeQuery(query);
+				System.out.println("Query executed");
+				ResultSetMetaData metaData = res.getMetaData();
+			   System.out.println(metaData.getColumnCount());
+			   System.out.println(metaData.getColumnName(2)+" "+metaData.getColumnName(1));
+			   
+			   for (int i = 1; i < metaData.getColumnCount(); i++) {
+                   System.out.println(metaData.getColumnName(i)+" "+metaData.getColumnTypeName(i));
+				   
+			}
+			   res.absolute(2);
+			   System.out.println(res.getInt(1)+" "+res.getString(2)+" "+res.getString(3)+" "+res.getInt(4));
+				
+				
+		} catch (ClassNotFoundException  e) {
+			System.out.println("driver  not loaded");
+		}
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		
+	}
+
+}
+
+TYPE SCROOLL SENSITIVE
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+package jdbc.project;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+public class  Demo2{
+	public static void main(String[] args) {
+	//	String url="api:vendor://I-P addr:port/db-name";
+		String url="jdbc:mysql://localhost:3306/employee";
+		String user="root";
+		String pwd="Vivek@mysql";
+		Connection con=null;
+		Statement stmt=null;
+		ResultSet res=null;
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			System.out.println("driver sucessfully loaded");
+			 con = DriverManager.getConnection(url, user, pwd);
+				System.out.println("connection establish");
+				
+			 stmt=con.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,0);
+			String query1="insert into emp (`id`,`name`,`deg`,`salary`) value(5,'jo','seo',50000)";
+			String query2="insert into emp (`id`,`name`,`deg`,`salary`) value(6,'juo','eo',500000)";
+			String query3="insert into emp (`id`,`name`,`deg`,`salary`) value(7,'jou','soeo',500000)";
+			stmt.addBatch(query1);
+			stmt.addBatch(query2);
+			stmt.addBatch(query3);
+			stmt.executeBatch();
+				
+		} catch (ClassNotFoundException  e) {
+			System.out.println("driver  not loaded");
+		}
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		
+	}
+
+}
+
+
+
+
+T
